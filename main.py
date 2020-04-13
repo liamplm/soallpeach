@@ -28,7 +28,7 @@ def is_prime(x):
 
 
 
-# for i in range(599999):
+# for i in range(3999999):
 #     if is_prime(i) == '1':
 #         print(i)
 
@@ -36,8 +36,6 @@ def is_prime(x):
 
 
 # print(is_prime(int(sys.argv[1])))
-
-
 
 
 
