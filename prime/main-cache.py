@@ -10,6 +10,7 @@ cache = {}
 try:
     cache = pickle.load(open('./cache', 'rb'))
 except:
+    # exit('no cache found')
     pass
 
 
@@ -42,6 +43,7 @@ with open(file_name) as input_numbers:
     for line in input_numbers:
 
         if cache.get(line) == None:
+            # exit(f'{line} not found ...')
             number = int(line)
             cache[line] = res = is_prime(number)
         else:

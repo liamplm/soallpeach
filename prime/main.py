@@ -29,7 +29,7 @@ def is_prime(x):
     return '1'
 
 
-# for i in range(3999999):
+# for i in range(9999999):
 #     if is_prime(i) == '1':
 #         print(i)
 
