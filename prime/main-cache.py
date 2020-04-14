@@ -12,7 +12,6 @@ try:
 except:
 #    exit('no cache found')
     pass
-'''
 
 def is_prime(x):
     if x < 2:
@@ -36,6 +35,7 @@ def is_prime(x):
         i += 1
     return '1'
 
+'''
 
 file_name = sys.argv[1]
 
