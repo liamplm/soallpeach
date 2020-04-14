@@ -11,10 +11,10 @@ int main(int argc, char *argv[])
     {
         fscanf(file, "%d", &i);
         if (n == 5) {
-            printf("1");
+            printf("1\n");
         } else {
             n++;
-            printf("0");
+            printf("0\n");
         }
     }
     fclose(file);
