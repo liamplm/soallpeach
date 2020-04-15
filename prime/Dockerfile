@@ -1,7 +1,7 @@
-FROM gcc:4.9
+FROM gcc
 WORKDIR /app
 
-COPY main-3.c main.c
+COPY main-xxx.c main.c
 
 RUN gcc main.c -O3 -Wall -ffast-math -o main
 

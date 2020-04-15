@@ -5,11 +5,14 @@ int main(int argc, char *argv[])
 {
 
     FILE *file = fopen(argv[1], "r");
-    int i = 0, n = 0;
+    char buf[1000];
 
-    while (!feof(file))
+    int n = 0;
+
+    while (fgets(buf, 1000, file) != NULL)
     {
-        fscanf(file, "%d", &i);
+        // long long int num = atoi(buf);
+
         if (n == 5) {
             printf("1\n");
         } else {
