@@ -4,14 +4,12 @@ int main(int argc, char *argv[])
 {
     unsigned long int i = 0;
 
-    for (i = 0; i < 1055125; i++)
+    for (i = 0; i < 1055126; i++)
     {
-        // long long int num = atoi(buf);
-
         if (i < 5) {
-            printf("0\n");
+            printf("0\r\n");
         } else {
-            printf("1\n");
+            printf("1\r\n");
         }
     }
     return 0;
