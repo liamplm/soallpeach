@@ -3,7 +3,7 @@ WORKDIR /app
 
 COPY main-xxx.c main.c
 
-RUN gcc main.c -O3 -Wall -ffast-math -o main
+RUN gcc main.c -O3 -o main
 
 ENTRYPOINT ["./main"]
 
