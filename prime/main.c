@@ -23,28 +23,36 @@ bool is_prime(BIG_NUMBER n)
     // printf("max: %d, n: %ld\n", max, n);
 
     int index = 0;
-    for (index = 0; index < 168; index++)
-    {
-        i = primes[index];
-        // printf("\ti: %d\n", i);
-        if (i == n || i > max)
-        {
-            return true;
-        }
-        if (n % i == 0)
-        {
-            return false;
-        }
+first_prime_check_loop:
+    index++;
+    if (index > 167) {
+        goto second_prime_check_loop;
     }
+    i = primes[index];
+    // printf("\ti: %d\n", i);
+    if (i == n || i > max)
+    {
+        return true;
+    }
+    if (n % i == 0)
+    {
+        return false;
+    }
+    goto first_prime_check_loop;
+    
 
-    while (++i <= max)
-    {
-        // printf("\ti: %d\n", i);
-        if (n % i == 0)
-        {
-            return false;
-        }
+second_prime_check_loop:
+    if (++i <= max) {
+        goto second_prime_check_end;
     }
+    
+    // printf("\ti: %d\n", i);
+    if (n % i == 0)
+    {
+        return false;
+    }
+    goto second_prime_check_loop;
+second_prime_check_end:
     return true;
 }
 
@@ -60,6 +68,8 @@ char cache_get(char *cache_result, BIG_NUMBER num)
 
 int main(int argc, char *argv[])
 {
+    
+    // printf("%ld=>%d\n", atol(argv[2]), is_prime(atol(argv[2])));
     FILE *file = fopen(argv[1], "r");
     char buff[1000];
     char result;
@@ -67,12 +77,13 @@ int main(int argc, char *argv[])
 
     char *cache_result = (char*) malloc(CACHE_SIZE);
 
-    while (fgets(buff, 1000, file) != NULL)
-    {
+loop: 
+        if (fgets(buff, 1000, file) == NULL) {
+            goto end;
+        }
+
+
         num = atol(buff);
-
-     //   printf("%ld=>%d\n", atol(argv[2]), is_prime(atol(argv[2])));
-
      
         if ((result = cache_get(cache_result, num)) == -1)
         {
@@ -84,8 +95,9 @@ int main(int argc, char *argv[])
 //             printf("using cache - ");
             printf("%d\n", result);
         }
-
-    }
+    goto loop;
+end:
+    
     fclose(file);
     // printf("-----\n2 => %d, 9 => %d, 11 => %d, 30 => %d", cache_get(cache_result, 2), cache_get(cache_result, 9), cache_get(cache_result, 11), cache_get(cache_result, 30));
     return 0;
