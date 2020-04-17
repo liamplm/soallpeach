@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
     char *cache_result = (char*) malloc(CACHE_SIZE);
 
 loop: 
-        if (fgets(buff, 1000, file) == NULL) {
+        if (fgets(buff, 100, file) == NULL) {
             goto end;
         }
 
@@ -90,10 +90,14 @@ loop:
 //             printf("not using cache - ");
             result = is_prime(num);
             cache_insert(cache_result, num, result);
-            printf("%d\n", result);
+//            printf("%d\n", result);
+            putchar_unlocked(result ? '1' : '0');
+            putchar_unlocked('\n');
         } else {
 //             printf("using cache - ");
-            printf("%d\n", result);
+//            printf("%d\n", result);
+            putchar_unlocked(result ? '1' : '0');
+            putchar_unlocked('\n');
         }
     goto loop;
 end:
