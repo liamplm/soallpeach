@@ -20,10 +20,13 @@ bool is_prime(BIG_NUMBER n)
     int i;
     int max = (int)sqrt(n);
 
+    // printf("max: %d, n: %ld\n", max, n);
+
     int index = 0;
     for (index = 0; index < 168; index++)
     {
         i = primes[index];
+        // printf("\ti: %d\n", i);
         if (i == n || i > max)
         {
             return true;
@@ -34,8 +37,9 @@ bool is_prime(BIG_NUMBER n)
         }
     }
 
-    while (++i < max)
+    while (++i <= max)
     {
+        // printf("\ti: %d\n", i);
         if (n % i == 0)
         {
             return false;
@@ -46,12 +50,12 @@ bool is_prime(BIG_NUMBER n)
 
 void cache_insert(char *cache_result, BIG_NUMBER num, char result)
 {
-    (*(cache_result + num)) = result + 1;
+    cache_result[num] = result + 1;
 }
 
 char cache_get(char *cache_result, BIG_NUMBER num)
 {
-    return (*(cache_result + num)) - 1;
+    return cache_result[num] - 1;
 }
 
 int main(int argc, char *argv[])
@@ -65,12 +69,12 @@ int main(int argc, char *argv[])
 
     while (fgets(buff, 1000, file) != NULL)
     {
-        num = atoi(buff);
+        num = atol(buff);
 
-//        printf("%d\n", is_prime(num));
+     //   printf("%ld=>%d\n", atol(argv[2]), is_prime(atol(argv[2])));
 
      
-        if (result = cache_get(cache_result, num) == -1)
+        if ((result = cache_get(cache_result, num)) == -1)
         {
 //             printf("not using cache - ");
             result = is_prime(num);
@@ -83,5 +87,6 @@ int main(int argc, char *argv[])
 
     }
     fclose(file);
+    // printf("-----\n2 => %d, 9 => %d, 11 => %d, 30 => %d", cache_get(cache_result, 2), cache_get(cache_result, 9), cache_get(cache_result, 11), cache_get(cache_result, 30));
     return 0;
 }
