@@ -101,7 +101,13 @@ int main(int argc, char *argv[])
     char *cache_result = (char*) malloc(CACHE_SIZE);
 
 loop: 
-    read_result = read_line(file, buff);
+
+    if (fgets(buff, 1000, file) == NULL)
+    {
+        goto end;
+    }
+
+//    read_result = read_line(file, buff);
 
 //    printf("line: \"%s\"\n", buff);
 
@@ -121,11 +127,12 @@ loop:
         putchar_unlocked(result ? '1' : '0');
         putchar_unlocked('\n');
     }
-    if (read_result)
+    /*if (read_result)
     {
         goto loop;
-    }
-    
+    }*/
+    goto loop;
+end:
     fclose(file);
     // printf("-----\n2 => %d, 9 => %d, 11 => %d, 30 => %d", cache_get(cache_result, 2), cache_get(cache_result, 9), cache_get(cache_result, 11), cache_get(cache_result, 30));
     return 0;
