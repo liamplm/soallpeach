@@ -56,6 +56,27 @@ second_prime_check_end:
     return true;
 }
 
+bool read_line(FILE *file, char *buff) 
+{
+    int index = 0, c;
+read_line_loop:
+    c = fgetc(file);
+    
+//    printf("char[%d]='%c'\n", index + 1, (char)c);
+    if (c == EOF)
+    {
+//        printf("end with new line\n");
+        return false;
+    } 
+    else if ((buff[index++] = (char)c) == '\n')
+    {
+//        printf("end with EOF\n");
+        return true;
+    }
+    
+    goto read_line_loop;
+}
+
 void cache_insert(char *cache_result, BIG_NUMBER num, char result)
 {
     cache_result[num] = result + 1;
@@ -71,36 +92,39 @@ int main(int argc, char *argv[])
     
     // printf("%ld=>%d\n", atol(argv[2]), is_prime(atol(argv[2])));
     FILE *file = fopen(argv[1], "r");
+    
     char buff[1000];
-    char result;
+    char result, read_result;
+
     BIG_NUMBER num = 0;
 
     char *cache_result = (char*) malloc(CACHE_SIZE);
 
 loop: 
-        if (fgets(buff, 100, file) == NULL) {
-            goto end;
-        }
+    read_result = read_line(file, buff);
 
+//    printf("line: \"%s\"\n", buff);
 
-        num = atol(buff);
+    num = atol(buff);
      
-        if ((result = cache_get(cache_result, num)) == -1)
-        {
-//             printf("not using cache - ");
-            result = is_prime(num);
-            cache_insert(cache_result, num, result);
-//            printf("%d\n", result);
-            putchar_unlocked(result ? '1' : '0');
-            putchar_unlocked('\n');
-        } else {
-//             printf("using cache - ");
-//            printf("%d\n", result);
-            putchar_unlocked(result ? '1' : '0');
-            putchar_unlocked('\n');
-        }
-    goto loop;
-end:
+    if ((result = cache_get(cache_result, num)) == -1)
+    {
+//        printf("not using cache - ");
+        result = is_prime(num);
+        cache_insert(cache_result, num, result);
+//        printf("%d\n", result);
+        putchar_unlocked(result ? '1' : '0');
+        putchar_unlocked('\n');
+    } else {
+//        printf("using cache - ");
+//        printf("%d\n", result);
+        putchar_unlocked(result ? '1' : '0');
+        putchar_unlocked('\n');
+    }
+    if (read_result)
+    {
+        goto loop;
+    }
     
     fclose(file);
     // printf("-----\n2 => %d, 9 => %d, 11 => %d, 30 => %d", cache_get(cache_result, 2), cache_get(cache_result, 9), cache_get(cache_result, 11), cache_get(cache_result, 30));
