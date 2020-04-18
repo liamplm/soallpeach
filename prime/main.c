@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
     BIG_NUMBER num = 0;
     cache_result = (char*) malloc(CACHE_SIZE);
 
-/*
+
     int index = 0;
 fill_cache_loop:
     if (++index > 167)
@@ -134,7 +134,7 @@ fill_cache_loop:
     }
     cache_insert(primes[index], true);
     goto fill_cache_loop;
-*/
+
 
 main_loop: 
 
@@ -183,21 +183,23 @@ main_loop:
 main_loop_end:
     fclose(file);
 //    stdout_buff[stdout_buff_seek++] = '\0';
+
 //    puts(stdout_buff);
     printf("%s", stdout_buff);
 
 //    printf("=>|%ld|%c|%c|\n%s", stdout_buff_seek, stdout_buff[0], stdout_buff[54], stdout_buff);
+
 /*
     BIG_NUMBER stdout_buff_index = 0;
 print_loop:
-    if (stdout_buff_index++ != stdout_buff_seek)
+    putchar_unlocked(stdout_buff[stdout_buff_index]);
+
+    if (++stdout_buff_index != stdout_buff_seek)
     {
-        goto print_loop_end;
+        goto print_loop;
     }
-    putchar_unlocked(stdout_buff[stdout_buff_index] ? '1' : '0');
-    putchar_unlocked('\n');
 */
+
     // printf("-----\n2 => %d, 9 => %d, 11 => %d, 30 => %d", cache_get(cache_result, 2), cache_get(cache_result, 9), cache_get(cache_result, 11), cache_get(cache_result, 30));
-//print_loop_end:
     return 0;
 }
