@@ -3,9 +3,9 @@ FROM node:lts
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-COPY index.js ./
+COPY main.js ./
 
 RUN npm i
 
-ENTRYPOINT ["node", "index.js"]
+CMD ["node", "main.js"]
 
