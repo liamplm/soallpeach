@@ -65,7 +65,7 @@ if (cluster.isMaster) {
         } else {
             // Get result
             const sum = await getSumFromMaster()
-            res.end(sum);
+            res.end(sum.toString());
             //res.end(sum(nums).toString());
         }
     })
