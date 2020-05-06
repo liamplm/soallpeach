@@ -7,5 +7,5 @@ COPY main.js ./
 
 RUN npm i
 
-CMD ["node", "main.js"]
+CMD ["node", "main.js", "80"]
 
