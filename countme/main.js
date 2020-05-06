@@ -8,14 +8,6 @@ const PORT = parseInt(process.argv[2])
 if (cluster.isMaster) {
     let num = 0;
 
-    function sum(arr) {
-        let res = 0;
-        for (let i = 0; i < arr.length; i++) {
-            res += arr[i];
-        }
-        return res;
-    }
-
     for (let i = 0; i < CPU_COUNT; i++) {
         const worker = cluster.fork();
         worker.on('message', (msg) => {
@@ -23,50 +15,38 @@ if (cluster.isMaster) {
             if (msg == 'get') {
                 worker.send(num)
             } else {
-                num += msg
+                num += parseInt(msg);
             }
         })
     }
 } else {
 
-    function getBody(req) {
-        return new Promise((resolve/*, reject*/) => {
-            let body = '';
-            req.on('data', (chunk) => {
-                body += chunk;
-            })
-            req.on('end', () => resolve(body))
-            //req.on('error', reject)
+    function getBody(req, cb) {
+        let body = '';
+        req.on('data', (chunk) => {
+            body += chunk;
+        })
+        req.on('end', () => cb(body))
+    }
+
+    function getSumFromMaster(cb) {
+        process.send('get', () => {
+            process.on('message', cb)
         })
     }
 
-
-
-    function getSumFromMaster() {
-        return new Promise((resolve) => {
-            process.send('get', () => {
-                //console.log('send req')
-                process.on('message', (num) => {
-                    //console.log('resuslt => ', num)
-                    resolve(num);
-                })
-            })
-        })
-    }
-
-    const server = http.createServer(async (req, res) => {
-        //console.log('new req', process.pid, req.method)
+    const server = http.createServer((req, res) => {
         if (req.method == 'POST') {
             // Add number
-            const body = await getBody(req);
-            process.send(parseInt(body))
-            //nums.push(parseInt(body));
-            res.end()
+            getBody(req, (body) => {
+                process.send(body)
+                res.end()
+            });
         } else {
             // Get result
-            const sum = await getSumFromMaster()
-            res.end(sum.toString());
-            //res.end(sum(nums).toString());
+            getSumFromMaster((sum) => {
+                res.end(sum.toString());
+            })
         }
     })
 
@@ -75,5 +55,4 @@ if (cluster.isMaster) {
     })
 
     process.on('SIGINT', () => { process.exit(); });
-
 }
